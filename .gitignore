@@ -1,0 +1,94 @@
+# -----------------------------
+# System Dateien
+# -----------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# -----------------------------
+# Temporäre Dateien
+# -----------------------------
+*.tmp
+*.temp
+*.log
+*.cache
+*.swp
+*.swo
+*~
+
+# -----------------------------
+# KiCad
+# -----------------------------
+*-bak
+*.bak
+*.bck
+*_autosave*
+*.lck
+*.kicad_prl
+
+# KiCad Plot / Output
+*.gbr
+*.drl
+*.zip
+*.pos
+*.rpt
+
+# -----------------------------
+# Build Dateien (Firmware)
+# -----------------------------
+build/
+dist/
+Debug/
+Release/
+
+*.o
+*.obj
+*.elf
+*.hex
+*.bin
+*.map
+*.lst
+*.eep
+
+# -----------------------------
+# Arduino
+# -----------------------------
+*.arduino.*
+
+# -----------------------------
+# Atmel Studio / Microchip Studio
+# -----------------------------
+*.atsuo
+*.user
+*.suo
+*.vcxproj.user
+
+# -----------------------------
+# VSCode
+# -----------------------------
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# -----------------------------
+# JetBrains IDEs
+# -----------------------------
+.idea/
+
+# -----------------------------
+# Python (falls später scripts)
+# -----------------------------
+__pycache__/
+*.pyc
+
+# -----------------------------
+# Backup Dateien
+# -----------------------------
+*.old
+*.backup
+*.orig
+
+# -----------------------------
+# Word temporäre Dateien
+# -----------------------------
+~$*.docx
