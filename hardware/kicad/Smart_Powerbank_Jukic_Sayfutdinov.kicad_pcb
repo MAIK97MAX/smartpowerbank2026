@@ -20562,7 +20562,7 @@
 			)
 		)
 		(property "Value" "100nF"
-			(at 0 -1.43 0)
+			(at 0.05 2.65 0)
 			(layer "B.Fab")
 			(uuid "8270349a-72fc-4b17-9640-89d221ad5233")
 			(effects
@@ -21651,7 +21651,7 @@
 			)
 		)
 		(property "Value" "470nF"
-			(at -2.25 -1.58 90)
+			(at 0.2 1.7 90)
 			(layer "B.Fab")
 			(uuid "4e7e7fc9-9652-40b3-b3e7-36ad4b623a9f")
 			(effects

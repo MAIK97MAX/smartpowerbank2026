@@ -524,7 +524,7 @@
       "plot": "../gerbers/",
       "pos_files": "",
       "specctra_dsn": "",
-      "step": "Smart_Powerbank_Jukic_Sayfutdinov.stl",
+      "step": "../3dmodels/board.step",
       "svg": "",
       "vrml": ""
     },
