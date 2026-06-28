@@ -9,6 +9,8 @@
 |
 | Aenderung:
 \*-------------------------------------------------------------------------*/
+#define F_CPU 8000000UL
+
 #include <avr/io.h>
 #include <avr/pgmspace.h>
 #include <stdio.h>
@@ -29,9 +31,9 @@
 #else
    // Pause TWI 100kHz / I2C Standard
    // 1us
-   #define TWI_S_DELAY1() _delay_us(3.0)
+   #define TWI_S_DELAY1() _delay_us(5.0)
    // 2us
-   #define TWI_S_DELAY2() _delay_us(6.0)
+   #define TWI_S_DELAY2() _delay_us(5.0)
 #endif
 
 #define P_SCL_LIN (1<<PSCL_TWI_S)
@@ -61,7 +63,7 @@
 //#define SDA_HIGH  (PRT_TWI_S |=  P_SDA_LIN)
 //#define SDA_LOW   (PRT_TWI_S &= ~P_SDA_LIN)
 //#define SDA_IN    (PIN_TWI_S & P_SDA_LIN)
-//
+
 #define SCL_PSEC  (DDR_TWI_S |=  P_SCL_LIN)
 #define SCL_HIGH  (PRT_TWI_S |=  P_SCL_LIN)
 #define SCL_LOW   (PRT_TWI_S &= ~P_SCL_LIN)
@@ -135,6 +137,7 @@ uint8_t twi_s_write(uint8_t data)
 {
    uint8_t i;
    uint8_t hlp;
+   uint8_t t;
 
    SDA_PSEC;
    SCL_PSEC;
@@ -152,6 +155,7 @@ uint8_t twi_s_write(uint8_t data)
       data <<= 1;  // Bit schieben, 7 bis 0
       TWI_S_DELAY1();
       SCL_HIGH;
+	  t = 255; while ((SCL_IN == 0) && (--t));
       TWI_S_DELAY2();
       SCL_LOW;
    }
@@ -159,6 +163,7 @@ uint8_t twi_s_write(uint8_t data)
    SDA_HIGH;
    TWI_S_DELAY1();
    SCL_HIGH;
+   t = 255; while ((SCL_IN == 0) && (--t));
    TWI_S_DELAY1();
 
    if (SDA_IN == 0) // Testen SDA auf Acknowledge low
@@ -177,6 +182,7 @@ uint8_t twi_s_read(uint8_t ack)
 {
    uint8_t data = 0;
    uint8_t i;
+   uint8_t t;
 
    SDA_PSEC;
    SCL_PSEC;
@@ -189,6 +195,7 @@ uint8_t twi_s_read(uint8_t ack)
       data <<= 1;			// Bit schieben, 7 bis 0
       TWI_S_DELAY1();
       SCL_HIGH;
+	  t = 255; while ((SCL_IN == 0) && (--t));
       TWI_S_DELAY1();
       if (SDA_IN != 0) // Testen SDA auf high
          data |= 1;    // wenn high, Bit 0 setzen
@@ -202,12 +209,40 @@ uint8_t twi_s_read(uint8_t ack)
    
    TWI_S_DELAY1();
    SCL_HIGH;
+   t = 255; while ((SCL_IN == 0) && (--t));
    TWI_S_DELAY2();
    SCL_LOW;
    SDA_HIGH;
 
    return data;  // Daten zurückgeben
 }
+
+void bq_bus_reset(void)
+{
+	uint8_t i;
+	
+	// clock out up to 9 pulses to release a stuck SDA
+	DDR_TWI_S  |=  P_SCL_LIN;   // SCL output
+	DDR_TWI_S  &= ~P_SDA_LIN;   // SDA input
+	PRT_TWI_S  &= ~P_SCL_LIN;
+
+	for (i = 0; i < 9; i++)
+	{
+		PRT_TWI_S |=  P_SCL_LIN;
+		_delay_us(5);
+		PRT_TWI_S &= ~P_SCL_LIN;
+		_delay_us(5);
+	}
+
+	// issue a stop
+	DDR_TWI_S |= P_SDA_LIN;
+	_delay_us(5);
+	PRT_TWI_S |= P_SCL_LIN;
+	_delay_us(5);
+	DDR_TWI_S &= ~P_SDA_LIN;
+	_delay_us(5);
+}
+
 // Sevice Bereich SW-I2C Schnittstelle für das Display------------------------------
 
 // Zeichnesatz-Code-----------------------------------------------------------------

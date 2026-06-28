@@ -36,7 +36,8 @@ extern const uint8_t fontData[];
 
 // TWI_S_STD  100kHz
 // TWI_S_FAST 400kHz
-#define TWI_S_FAST
+//#define TWI_S_FAST
+#define TWI_S_STD
 
 // TWI Pins festlegen (Port und Pin)
 // beliebige Pins, aber auf dem gleichen Port
@@ -87,6 +88,8 @@ uint8_t twi_s_write(uint8_t data);
 | Liest ein Byte vom Slave
 \*-------------------------------------------------------------------------*/
 uint8_t twi_s_read(uint8_t ack);
+
+void bq_bus_reset(void);
 
 #endif /* TWI_SOFT_H_ */
 // Defines für den I2C Zugriff--------------------------------------------
