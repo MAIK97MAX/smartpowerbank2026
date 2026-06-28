@@ -524,7 +524,7 @@
       "plot": "../gerbers/",
       "pos_files": "",
       "specctra_dsn": "",
-      "step": "../3dmodels/board.step",
+      "step": "../3dmodels/board.stl",
       "svg": "",
       "vrml": ""
     },
